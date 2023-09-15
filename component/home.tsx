@@ -1,10 +1,31 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
 import Header from './header'
 import MainMovie from './main-movie'
-import Card from './card'
+import FeaturedMovie from './feature'
 import Footer from './footer'
+import axios from 'axios'
 
 const HeroSection = () => {
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const getMovie = async () => {
+      try {
+        const res = await axios(
+          `https://api.themoviedb.org/3/movie/top_rated?api_key=f8b3db37188308f327a90699247441c5`
+        );
+        const moviesRes = res.data;
+        const top10Movies = moviesRes.results.slice(0, 10);
+        setMovies(top10Movies);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getMovie();
+  }, [])
+
   return (
     <div className='h-screen'>
         <div className='bg-hero-pattern bg-cover bg-center bg-no-repeat lg:h-[37.5rem] py-4'>
@@ -12,10 +33,7 @@ const HeroSection = () => {
             <MainMovie />
         </div>
         <div>
-          <div className='mt-[3rem] md:mt-[5rem] ml-[2rem] md:ml-[2.7rem] lg:ml-[6.2rem] font-sans w-full pb-12'>
-            <h1 className='text-[1.5rem] md:text-[2.5rem] font-semibold'>Featured Movie</h1>
-            <Card />
-          </div>
+        <FeaturedMovie movies={movies} />
         </div>
         <div>
           <Footer />

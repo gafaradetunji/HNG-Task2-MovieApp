@@ -1,26 +1,25 @@
-type Movie = {
-    "adult": boolean,
-    "backdrop_path": string,
-    "genre_ids": [
-    number,
-    number
-    ],
-    "id": number,
-    "original_language": string,
-    "original_title": string,
-    "overview": string,
-    "popularity": number,
-    "poster_path": string,
-    "release_date": string,
-    "title": string,
-    "video": boolean,
-    "vote_average": number,
-    "vote_count": number
-}
-
 interface Data {
   id: number,
   name: string,
   icon: JSX.Element
-  component: () => JSX.Element | string
+  component: string
+}
+
+interface Movie {
+  poster_path: string;
+  backdrop_path: string;
+  id: number;
+  title: string;
+  genres: [
+    {
+      name: string;
+      id: string;
+    }
+  ];
+  original_language: string;
+  release_date: string;
+  runtime: string;
+  vote_average: string;
+  overview: string;
+  videos: { results: [{ type: string; key: string }] };
 }
